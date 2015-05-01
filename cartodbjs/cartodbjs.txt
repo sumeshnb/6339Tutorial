@@ -1,0 +1,31 @@
+add a layer variable(replace the url with the map created)
+==========================================================
+var layerUrl = 'http://documentation.cartodb.com/api/v2/viz/836e37ca-085a-11e4-8834-0edbca4b5057/viz.json';
+
+
+create a layer
+==============
+  cartodb.createLayer(map, layerUrl)
+    .addTo(map)
+    .on('done', function(layer) {
+
+    }).on('error', function() {
+      //log the error
+    });
+
+Adding client side SQL and CartoCSS
+-----------------------------------
+change the table name with the table name from cartodb map
+
+
+var subLayerOptions = {
+  sql: "SELECT * FROM ne_10m_populated_places_simple where adm0_a3 = 'USA'",
+  cartocss: "#example_cartodbjs_1{marker-fill: #109DCD; marker-width: 5; marker-line-color: white; marker-line-width: 0;}"
+}
+
+
+Add SubLayerOptions to the "on done" part
+=========================================
+.on('done', function(layer) {
+  layer.getSubLayer(0).set(subLayerOptions);
+}).on('error', function() {

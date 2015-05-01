@@ -1,0 +1,42 @@
+<html>
+<head>
+  <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+  <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
+  <![endif]-->
+  <style>
+    html, body {width:100%; height:100%; padding: 0; margin: 0;}
+    #cartodb-map { width: 100%; height:100%; background: black;}
+  </style>
+
+  <script>
+    var map;
+    function init(){
+      // initiate leaflet map
+      map = new L.Map('cartodb-map', { 
+        center: [0,0],
+        zoom: 2
+      })
+      var layerUrl = 'https://sumeshnb.cartodb.com/api/v2/viz/1b0de2c0-ee28-11e4-98bc-0e0c41326911/viz.json';
+
+      cartodb.createLayer(map, layerUrl)
+  .addTo(map)
+  .on('done', function(layer) {
+    layer.getSubLayer(0).set(subLayerOptions);
+  }).on('error', function() {
+    //log the error
+  });
+
+  var subLayerOptions = {
+  sql: "SELECT * FROM ne_10m_populated_places_simple where adm0_a3 = 'USA'",
+  cartocss: "#example_cartodbjs_1{marker-fill: #109DCD; marker-width: 5; marker-line-color: white; marker-line-width: 0;}"
+    }
+
+    }
+  </script>
+</head>
+<body onload="init()">
+  <div id='cartodb-map'></div>
+</body>
+</html>
